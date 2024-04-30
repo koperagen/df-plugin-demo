@@ -119,6 +119,16 @@ fun main() {
             a into "c"
         }
 
+    fun safeCast(df: DataFrame<*>) {
+        // try removing a column or commenting out a line in the add function and see the error
+        add(df).cast<Cast>()
+    }
+
+    fun cast(df: DataFrame<*>) {
+        // DataFrame<*> can be cast to anything
+        df.cast<Explode>().frameColumn
+    }
+
     fun read() {
         val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
         val df1 = DataFrame.readJson("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains.json")
