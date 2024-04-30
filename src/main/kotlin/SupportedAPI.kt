@@ -67,6 +67,8 @@ data class Rows(val a: Int, val b: Int)
 
 fun main() {
     fun dataFrameOf() {
+        // Special constructor for classes annotated with @DataSchema
+        // Convenient way to create dataframe from rows
         val df: DataFrame<Rows> = dataFrameOf(Rows(1, 2))
         df.a
 
