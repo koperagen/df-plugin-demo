@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.0.20-dev-2438"
+    kotlin("jvm") version "2.0.20-dev-2972"
     application
 }
 
@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3068")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3068")
+    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3109")
+    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3109")
     testImplementation(kotlin("test"))
 }
 
