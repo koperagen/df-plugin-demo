@@ -14,6 +14,7 @@ import org.jetbrains.kotlinx.dataframe.api.group
 import org.jetbrains.kotlinx.dataframe.api.into
 import org.jetbrains.kotlinx.dataframe.api.join
 import org.jetbrains.kotlinx.dataframe.api.remove
+import org.jetbrains.kotlinx.dataframe.api.rename
 import org.jetbrains.kotlinx.dataframe.api.select
 import org.jetbrains.kotlinx.dataframe.api.toDataFrame
 import org.jetbrains.kotlinx.dataframe.api.ungroup
@@ -168,6 +169,13 @@ fun main() {
     fun dropNulls(df: DataFrame<*>) {
         val df = df.add("a") { 42.takeIf { false } }.dropNulls { a }
         val nonNullValues: DataColumn<Int> = df.a
+    }
+
+    fun rename() {
+        val df = listOf(Record(1, "ab", NestedRecord(3.0), Test1(1, "2"))).toDataFrame(maxDepth = 1)
+        df.nestedRecord.c
+        val df1 = df.rename { nestedRecord.c and nestedRecord }.into("group", "abc")
+        df1.group.abc
     }
 }
 
