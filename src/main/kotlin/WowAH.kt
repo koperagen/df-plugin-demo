@@ -73,10 +73,10 @@ fun main() {
         last().timestamp into "end"
         ChronoUnit.MINUTES.between(first().timestamp, last().timestamp) into "diff"
     }
-        .add("bot") { "diff"<Long>() > 24 * 60 }
+        .add("bot") { diff > 24 * 60 }
 
     println(res.bot.count { it })
     println(res.bot.count { it })
 
-    res.sortByDesc("diff").print()
+    res.sortByDesc { diff }.print()
 }
