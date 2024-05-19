@@ -4,13 +4,17 @@ import java.time.LocalDateTime
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.annotations.DisableInterpretation
 import org.jetbrains.kotlinx.dataframe.api.add
+import org.jetbrains.kotlinx.dataframe.api.aggregate
 import org.jetbrains.kotlinx.dataframe.api.append
 import org.jetbrains.kotlinx.dataframe.api.cast
 import org.jetbrains.kotlinx.dataframe.api.convert
+import org.jetbrains.kotlinx.dataframe.api.count
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
 import org.jetbrains.kotlinx.dataframe.api.dropNulls
 import org.jetbrains.kotlinx.dataframe.api.explode
+import org.jetbrains.kotlinx.dataframe.api.expr
 import org.jetbrains.kotlinx.dataframe.api.group
+import org.jetbrains.kotlinx.dataframe.api.groupBy
 import org.jetbrains.kotlinx.dataframe.api.into
 import org.jetbrains.kotlinx.dataframe.api.join
 import org.jetbrains.kotlinx.dataframe.api.remove
@@ -176,6 +180,13 @@ fun main() {
         df.nestedRecord.c
         val df1 = df.rename { nestedRecord.c and nestedRecord }.into("group", "abc")
         df1.group.abc
+    }
+
+    fun groupBy_aggregate(df: DataFrame<ActivePlayer>) {
+        df.groupBy { race and expr { 12 } }.aggregate {
+            count() into "count"
+            1 into "i"
+        }
     }
 }
 
