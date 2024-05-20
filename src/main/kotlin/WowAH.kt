@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.time.temporal.Temporal
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
-import org.jetbrains.kotlinx.dataframe.annotations.DisableInterpretation
 import org.jetbrains.kotlinx.dataframe.api.cast
 import org.jetbrains.kotlinx.dataframe.io.read
 import org.jetbrains.kotlinx.dataframe.api.*
@@ -33,15 +32,9 @@ interface ActivePlayer {
  */
 
 fun main() {
-    val dfq = DataFrame.read("wowah_data_100K.csv")
-    val df = dfq.cast<ActivePlayer>()
+    val df = DataFrame.read("wowah_data_100K.csv").cast<ActivePlayer>()
 
     val format = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm:ss")
-
-    df.add("") { 12 }
-
-    val df123 = df.add("aa") { 123 }
-    df123.aa
 
     val df2 = df
         .convert { timestamp }.with { LocalDateTime.parse(it, format)!! }
