@@ -1,9 +1,10 @@
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.*
+import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.io.*
 
 fun main() {
-    val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
+    val df = @Import DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
     df.stargazers_count.print()
 
     df.filter { stargazers_count > 50 }.print()

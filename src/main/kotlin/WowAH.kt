@@ -33,7 +33,7 @@ interface ActivePlayer {
  */
 
 fun main() {
-    val dfq = @DisableInterpretation DataFrame.read("wowah_data_100K.csv")
+    val dfq = DataFrame.read("wowah_data_100K.csv")
     val df = dfq.cast<ActivePlayer>()
 
     val format = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm:ss")

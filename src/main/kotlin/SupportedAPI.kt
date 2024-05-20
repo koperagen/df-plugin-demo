@@ -2,7 +2,7 @@ package org.jetbrains.kotlinx.dataframe
 
 import java.time.LocalDateTime
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
-import org.jetbrains.kotlinx.dataframe.annotations.DisableInterpretation
+import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.api.add
 import org.jetbrains.kotlinx.dataframe.api.aggregate
 import org.jetbrains.kotlinx.dataframe.api.append
@@ -20,6 +20,7 @@ import org.jetbrains.kotlinx.dataframe.api.join
 import org.jetbrains.kotlinx.dataframe.api.remove
 import org.jetbrains.kotlinx.dataframe.api.rename
 import org.jetbrains.kotlinx.dataframe.api.select
+import org.jetbrains.kotlinx.dataframe.api.sumFor
 import org.jetbrains.kotlinx.dataframe.api.toDataFrame
 import org.jetbrains.kotlinx.dataframe.api.ungroup
 import org.jetbrains.kotlinx.dataframe.api.with
@@ -135,8 +136,10 @@ fun main() {
     }
 
     fun read() {
-        val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
-        val df1 = DataFrame.readJson("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains.json")
+        val df = @Import DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
+        df.full_name
+        val df1 = @Import DataFrame.readJson("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains.json")
+        df1.repos
     }
 
     fun toDataFrame() {
@@ -153,11 +156,6 @@ fun main() {
         }
         val nestedRecord: DataColumn<NestedRecord> = df.nestedRecord
         val nestedRecord1: DataColumn<Test1> = df.preserveProperty
-    }
-
-    fun disableInterpretation() {
-        // Plugin will ignore readCSV call
-        val df = @DisableInterpretation DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
     }
 
     fun remove(list: List<Record>) {
@@ -183,10 +181,12 @@ fun main() {
     }
 
     fun groupBy_aggregate(df: DataFrame<ActivePlayer>) {
-        df.groupBy { race and expr { 12 } }.aggregate {
+        val df1 = df.groupBy { race and expr { 12 } }.aggregate {
             count() into "count"
             1 into "i"
         }
+        df1.count
+        df1.race
     }
 }
 

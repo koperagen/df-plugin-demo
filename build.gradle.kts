@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3115")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3115")
+    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3116")
+    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3116")
     testImplementation(kotlin("test"))
 }
 
