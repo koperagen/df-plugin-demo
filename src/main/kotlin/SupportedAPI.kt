@@ -136,8 +136,10 @@ fun main() {
     }
 
     fun read() {
-        val df = @Import DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
+        // Argument be either absolute path or path relative to project directory.
+        val df = @Import DataFrame.readCSV("jetbrains_repositories.csv")
         df.full_name
+        // Execute `assemble` task to "cache" schema from this URL. Works for readJson
         val df1 = @Import DataFrame.readJson("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains.json")
         df1.repos
     }

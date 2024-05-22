@@ -15,8 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3121")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3121")
+    implementation("org.jetbrains.kotlinx:dataframe:0.13.1-dev-3122")
+    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.13.1-dev-3122")
     testImplementation(kotlin("test"))
 }
 
@@ -32,7 +32,8 @@ tasks.withType<KotlinCompile> {
     compilerOptions.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
     kotlinOptions.jvmTarget = "1.8"
     compilerExecutionStrategy.set(org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS)
-    kotlinOptions.freeCompilerArgs += listOf("-P", "plugin:org.jetbrains.kotlinx.dataframe:path=${buildDir.absolutePath}")
+    kotlinOptions.freeCompilerArgs += listOf("-P", "plugin:org.jetbrains.kotlinx.dataframe:path=${projectDir.absolutePath}")
+    kotlinOptions.freeCompilerArgs += listOf("-P", "plugin:org.jetbrains.kotlinx.dataframe:schemas=${layout.buildDirectory.file("generated").get().asFile.absolutePath}")
 }
 
 application {
