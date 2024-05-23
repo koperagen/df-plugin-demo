@@ -12,7 +12,7 @@ This project is a demonstration of Kotlin DataFrame compiler plugin.
    ![img_1.png](img_1.png)
 6. Sync the project
 
-At this point, properties provided by the compiler plugin should appear. If they're red, don't hesitate to reach out for help in the issue tracker.
+At this point, properties provided by the compiler plugin should appear. If they're red, don't hesitate to reach out for help in the [issue tracker](https://github.com/Kotlin/dataframe/issues).
 ![img_2.png](img_2.png)
 ### Content
 
