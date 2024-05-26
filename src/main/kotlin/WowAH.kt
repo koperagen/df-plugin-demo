@@ -28,7 +28,7 @@ interface ActivePlayer {
 }
 
 /**
- * let's try to find bots among these players. say, players with uniterrutped play session of >24 hrs?
+ * let's try to find bots among these players. say, players with uninterrupted play session of >24 hours?
  */
 
 fun main() {
@@ -36,13 +36,8 @@ fun main() {
 
     val format = DateTimeFormatter.ofPattern("MM/dd/yy HH:mm:ss")
 
-    val df2 = df
-        .convert { timestamp }.with { LocalDateTime.parse(it, format)!! }
-        .sortBy { char and timestamp }
-
-    df
     val df1 = df
-        .convert { timestamp }.with { LocalDateTime.parse(it, format)!! }
+        .convert { timestamp }.with { LocalDateTime.parse(it, format) }
         .sortBy { char and timestamp }
         .add("tsDiffValue") {
             diff(ChronoUnit.MINUTES) { timestamp }
@@ -55,21 +50,26 @@ fun main() {
 
     df1.distinctBy { session }.print()
 
-    df1.groupBy { session }.filter { group.rowsCount() != 1 }.let {
-        it.print()
-        it.concat().print()
-    }
+    df1.groupBy { session }.print()
 
-    val res = df1.groupBy { session }.aggregate {
-        count() into "count"
+    val sessions = df1.groupBy { session and char and charclass }.aggregate {
         first().timestamp into "start"
         last().timestamp into "end"
-        ChronoUnit.MINUTES.between(first().timestamp, last().timestamp) into "diff"
+        ChronoUnit.MINUTES.between(first().timestamp, last().timestamp) into "playtime"
     }
-        .add("bot") { diff > 24 * 60 }
+        .add("longSession") { playtime > 24 * 60 }
 
-    println(res.bot.count { it })
-    println(res.bot.count { it })
+    println("Number of uninterrupted >24 hours play sessions")
+    println(sessions.count { longSession })
 
-    res.sortByDesc { diff }.print()
+    println("Sessions sorted by most uninterrupted playtime")
+    sessions.sortByDesc { playtime }.print()
+
+    val playersInfo = sessions.groupBy { char and charclass }.aggregate {
+        count { longSession } into "longSessions"
+        count() into "totalSessions"
+    }.sortByDesc { longSessions and totalSessions }
+
+    println("Player info")
+    playersInfo.print()
 }
