@@ -190,6 +190,12 @@ fun main() {
         df1.count
         df1.race
     }
+
+    fun groupBy_toDataFrame(df: DataFrame<ActivePlayer>) {
+        val df1 = df.groupBy { race and expr { 12 } }.toDataFrame("grouped")
+        df1.race
+        df1.grouped[0].timestamp
+    }
 }
 
 class Test1(val a: Int, val b: String)
