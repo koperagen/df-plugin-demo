@@ -7,6 +7,7 @@ import org.jetbrains.kotlinx.dataframe.api.add
 import org.jetbrains.kotlinx.dataframe.api.aggregate
 import org.jetbrains.kotlinx.dataframe.api.append
 import org.jetbrains.kotlinx.dataframe.api.cast
+import org.jetbrains.kotlinx.dataframe.api.castTo
 import org.jetbrains.kotlinx.dataframe.api.convert
 import org.jetbrains.kotlinx.dataframe.api.count
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
@@ -17,10 +18,13 @@ import org.jetbrains.kotlinx.dataframe.api.group
 import org.jetbrains.kotlinx.dataframe.api.groupBy
 import org.jetbrains.kotlinx.dataframe.api.into
 import org.jetbrains.kotlinx.dataframe.api.join
+import org.jetbrains.kotlinx.dataframe.api.print
 import org.jetbrains.kotlinx.dataframe.api.remove
 import org.jetbrains.kotlinx.dataframe.api.rename
 import org.jetbrains.kotlinx.dataframe.api.select
+import org.jetbrains.kotlinx.dataframe.api.sortBy
 import org.jetbrains.kotlinx.dataframe.api.sumFor
+import org.jetbrains.kotlinx.dataframe.api.take
 import org.jetbrains.kotlinx.dataframe.api.toDataFrame
 import org.jetbrains.kotlinx.dataframe.api.ungroup
 import org.jetbrains.kotlinx.dataframe.api.with
@@ -195,6 +199,17 @@ fun main() {
         val df1 = df.groupBy { race and expr { 12 } }.toDataFrame("grouped")
         df1.race
         df1.grouped[0].timestamp
+    }
+
+    fun castTo(organizations: List<String>) {
+        val sample = @Import DataFrame.readCSV("jetbrains_repositories.csv")
+        organizations.forEach { organization ->
+            val df = DataFrame.readCSV(organization).castTo(sample)
+            println(organizations)
+            println("Repositories: ${df.count()}")
+            println("Top 10:")
+            df.sortBy { stargazers_count.desc() }.take(10).print()
+        }
     }
 }
 
