@@ -5,15 +5,17 @@ import org.jetbrains.kotlinx.dataframe.annotations.*
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.io.*
 
+@DataSchema
 data class Person(val firstName: String, val lastName: String, val age: Int, val city: String?)
 
+@DataSchema
 data class Group(val id: String, val participants: List<Person>)
 
 @DataSchema
 class WikiData(val name: String, val paradigms: List<String>)
 
 fun main() {
-    // Possible to create DataFrame from a "flat" object
+    // Possible to create DataFrame from DataSchema objects, converting nested DataSchema objects to ColumnGroup and lists of DataSchema to FrameColumn
     val languages = dataFrameOf(
         WikiData("Kotlin", listOf("object-oriented", "functional", "imperative")), // Kotlin
         WikiData("Haskell", listOf("Purely functional")), // Haskell

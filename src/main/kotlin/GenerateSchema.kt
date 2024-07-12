@@ -3,7 +3,6 @@
 import org.jetbrains.kotlinx.dataframe.*
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.io.*
-import org.jetbrains.kotlinx.dataframe.codeGen.generateInterfaces
 
 fun readData(): AnyFrame = DataFrame.readExcel("vending.xlsx")
 
