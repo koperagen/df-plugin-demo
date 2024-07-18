@@ -8,6 +8,7 @@ import org.jetbrains.kotlinx.dataframe.api.aggregate
 import org.jetbrains.kotlinx.dataframe.api.append
 import org.jetbrains.kotlinx.dataframe.api.cast
 import org.jetbrains.kotlinx.dataframe.api.castTo
+import org.jetbrains.kotlinx.dataframe.api.colsOf
 import org.jetbrains.kotlinx.dataframe.api.convert
 import org.jetbrains.kotlinx.dataframe.api.count
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
@@ -210,6 +211,12 @@ fun main() {
             println("Top 10:")
             df.sortBy { stargazers_count.desc() }.take(10).print()
         }
+    }
+
+    fun selectionDsl(df: DataFrame<Join2>) {
+        df.select { colsAtAnyDepth().colsOf<Int>() }.something
+        df.ungroup { c }.select { colsOf<String>() }.somethingElse
+        df.add("a") { 42 }.select { colsOf<Int>() }.a
     }
 }
 

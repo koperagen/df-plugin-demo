@@ -8,7 +8,7 @@ import org.jetbrains.kotlinx.dataframe.io.*
 private val sample = @Import DataFrame.readCSV("jetbrains_repositories.csv")
 
 fun printInfo(raw: AnyFrame) {
-    val df = raw.castTo(sample)
+    val df = raw.castTo(schemaFrom = sample)
     df.stargazers_count.print()
 
     df.filter { stargazers_count > 50 }.print()
