@@ -3,7 +3,7 @@ This project is a demonstration of Kotlin DataFrame compiler plugin.
 
 ### Setup
 
-1. Install `IntelliJ IDEA 2024.2 EAP` from [this page](https://www.jetbrains.com/idea/nextversion/) or in `JetBrains Toolbox`. In `Toolbox`, press three dots next to `IntelliJ IDEA`, choose Other versions, Select `2024.2 EAP`
+1. Install `IntelliJ IDEA 2024.2 Beta` from [this page](https://www.jetbrains.com/idea/nextversion/) or in `JetBrains Toolbox`. In `Toolbox`, press three dots next to `IntelliJ IDEA`, choose Other versions, Select `2024.2 Beta`
 2. Enable K2 mode in the Settings
 ![img.png](img.png)
 3. Restart the IDE
