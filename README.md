@@ -3,7 +3,7 @@ This project is a demonstration of Kotlin DataFrame compiler plugin.
 
 ### Setup
 
-1. Install `IntelliJ IDEA 2024.2 Beta` from [this page](https://www.jetbrains.com/idea/nextversion/) or in `JetBrains Toolbox`. In `Toolbox`, press three dots next to `IntelliJ IDEA`, choose Other versions, Select `2024.2 Beta`
+1. Install `IntelliJ IDEA 2024.2`
 2. Enable K2 mode in the Settings
 ![img.png](img.png)
 3. Restart the IDE
@@ -25,7 +25,7 @@ Multiple examples are provided:
 5. [GenerateSchema.kt](src%2Fmain%2Fkotlin%2FGenerateSchema.kt) and [UseSchema.kt](src%2Fmain%2Fkotlin%2FUseSchema.kt) is an entry point if you have a file or API with data
 6. [JetBrainsRepositoriesAdvanced.kt](src/main/kotlin/JetBrainsRepositoriesAdvanced.kt) shows how to create functions 
 
-Have a look at first and second to get an idea why and how plugin is useful.
+Have a look at first and second to get an idea why and how the plugin is useful.
 
 If you want to try in with your data,
 check out examples 4 and 5. [SupportedAPI.kt](src%2Fmain%2Fkotlin%2FSupportedAPI.kt) will help
