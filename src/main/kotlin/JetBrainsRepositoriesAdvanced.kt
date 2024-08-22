@@ -5,6 +5,7 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.io.*
 
+// Option 1
 private val sample = @Import DataFrame.readCSV("jetbrains_repositories.csv")
 
 fun printInfo(raw: AnyFrame) {
@@ -28,18 +29,6 @@ private fun parseTopics(raw: AnyFrame) = raw.castTo(sample)
     .add("topicsList") { topics.removeSurrounding("[", "]").split(", ").filter { it.isNotEmpty() } }
     .add("topicsSize") { topicsList.size }
 
-fun main() {
-    // How can you create a function when types are implicit?
-    // 1: castTo + https://kotlinlang.org/docs/functions.html#single-expression-functions
-    val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
-    printInfo(df)
-
-    // 2: generate code
-    df.generateDataClasses("Repositories").print()
-    val list = readRepositories()
-    display(list)
-}
-
 @DataSchema
 data class Repositories(
     @ColumnName("full_name")
@@ -52,9 +41,33 @@ data class Repositories(
     val watchers: Int
 )
 
-fun readRepositories(): List<Repositories> =
-    DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv").toListOf<Repositories>()
+// Option 2
+fun printInfoTyped(df: DataFrame<Repositories>) {
+    // columname annotation?...
+    df.stargazersCount.print()
 
-fun display(repositories: List<Repositories>) {
-    println(repositories.take(10).joinToString("\n"))
+    df.filter { stargazersCount > 50 }.print()
+
+    println(df.count { stargazersCount > 50 })
+    println(df.count { stargazersCount == 0 })
+
+    // let's try to parse topics
+    val df1 = parseTopics(df)
+
+    df1.sortByDesc { stargazers_count }.print(rowsLimit = 10)
+
+    df1.explode { topicsList }.groupBy { topicsList }.sortByGroupDesc { it.rowsCount() }.print()
+}
+
+fun main() {
+    // How can you create a function when types are implicit?
+    // 1: castTo + https://kotlinlang.org/docs/functions.html#single-expression-functions
+    val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
+    printInfo(df)
+
+    // 2: generate code
+    df.generateDataClasses("Repositories").print()
+    val repos = df.convertTo<Repositories>()
+    printInfoTyped(repos)
+    repos.append()
 }

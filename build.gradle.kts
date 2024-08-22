@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.0.20-Beta2-78"
+    kotlin("jvm") version "2.0.20-RC2"
     application
 }
 
@@ -16,8 +16,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.14.0-dev-3815")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.14.0-dev-3815")
+    implementation("org.jetbrains.kotlinx:dataframe:0.14.0-dev-3926")
+    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.14.0-dev-3926")
     testImplementation(kotlin("test"))
 }
 

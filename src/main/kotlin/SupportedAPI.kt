@@ -3,6 +3,7 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.io.*
+import java.io.File
 import java.time.LocalDateTime
 
 @DataSchema
@@ -57,6 +58,12 @@ fun main() {
         df.a
 
         val df1 = df.append(Rows(3, 4))
+    }
+
+    fun dataFrameOfInvoke() {
+        val df = dataFrameOf("a", "b")(1, listOf(2, 3, 4))
+        df[0].a
+        df[0].b.size
     }
 
     fun explode(df: DataFrame<Explode>) {
@@ -138,6 +145,11 @@ fun main() {
         val nestedRecord1: DataColumn<Test1> = df.preserveProperty
     }
 
+    fun toDataFrameColumn() {
+        val df = listOf(File("")).toDataFrame(columnName = "file")
+        df.file
+    }
+
     fun remove(list: List<Record>) {
         list.toDataFrame().remove { a }
     }
@@ -149,7 +161,14 @@ fun main() {
     }
 
     fun dropNulls(df: DataFrame<*>) {
-        val df = df.add("a") { 42.takeIf { false } }.dropNulls { a }
+        val nullableInt: Int? = 42
+        val df = df.add("a") { nullableInt }.dropNulls { a }
+        val nonNullValues: DataColumn<Int> = df.a
+    }
+
+    fun fillNulls(df: DataFrame<*>) {
+        val nullableInt: Int? = 42
+        val df = df.add("a") { nullableInt }.fillNulls { a }.with { 0 }
         val nonNullValues: DataColumn<Int> = df.a
     }
 
@@ -190,6 +209,19 @@ fun main() {
         df.select { colsAtAnyDepth().colsOf<Int>() }.something
         df.ungroup { c }.select { colsOf<String>() }.somethingElse
         df.add("a") { 42 }.select { colsOf<Int>() }.a
+    }
+
+    fun flatten() {
+        val df = dataFrameOf("a", "b", "c", "d")(1, 2, 3, 4)
+        val grouped = df
+            .group { a and b }.into("e")
+            .group { e and c }.into("f")
+
+        val flattened = grouped.flatten { f.e }
+        flattened.f.a
+
+        val flattened1 = grouped.flatten { f }
+        flattened1.a
     }
 }
 
