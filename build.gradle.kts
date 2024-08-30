@@ -1,3 +1,5 @@
+import kotlin.text.set
+
 plugins {
     kotlin("jvm") version "2.0.20"
 }
@@ -26,4 +28,5 @@ tasks.compileKotlin {
         freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:path=${projectDir.absolutePath}")
         freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:schemas=${layout.buildDirectory.file("generated").get().asFile.absolutePath}")
     }
+    compilerExecutionStrategy.set(org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS)
 }
