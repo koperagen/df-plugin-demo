@@ -1,16 +1,8 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "2.0.20-RC2"
-    application
+    kotlin("jvm") version "2.0.20"
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
-
 repositories {
-    mavenLocal()
     maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev/")
     mavenCentral()
 }
@@ -26,20 +18,12 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+tasks.compileKotlin {
     compilerOptions {
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-        jvmTarget = JvmTarget.JVM_1_8
         freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:path=${projectDir.absolutePath}")
         freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:schemas=${layout.buildDirectory.file("generated").get().asFile.absolutePath}")
     }
-    compilerExecutionStrategy.set(org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS)
-}
-
-application {
-    mainClass.set("MainKt")
 }
