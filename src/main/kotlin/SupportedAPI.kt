@@ -3,7 +3,10 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.io.*
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import java.io.File
+import java.net.URL
 import java.time.LocalDateTime
 
 @DataSchema
@@ -50,7 +53,7 @@ interface Cast {
 @DataSchema
 data class Rows(val a: Int, val b: Int)
 
-fun main() {
+object SupportedAPI {
     fun dataFrameOf() {
         // Special constructor for classes annotated with @DataSchema
         // Convenient way to create dataframe from rows
@@ -70,7 +73,7 @@ fun main() {
         val df1 = df.explode { primitives and frameColumn }
     }
 
-    fun explode1(df: DataFrame<Explode>) = df.explode { primitives and frameColumn }
+    private fun explode1(df: DataFrame<Explode>) = df.explode { primitives and frameColumn }
 
     fun ungroup(df: DataFrame<Explode>) {
         val df1 = df
@@ -103,7 +106,35 @@ fun main() {
             }
     }
 
-    fun add(df: AnyFrame) = df
+    fun addDsl() {
+        fun Document.selectOrFail(query: String) = selectFirst(query) ?: error(query)
+
+        val df =
+            dataFrameOf("url")(URL("https://blog.jetbrains.com/kotlin/2024/08/track-and-analyze-github-star-growth-with-kandy-and-kotlin-dataframe/"))
+                .add("document") { Jsoup.parse(url, 3000) }
+                .add {
+                    "title" from {
+                        document.selectFirst("#major-updates")?.text()
+                    }
+                    "author" {
+                        "name" from {
+                            document
+                                .selectFirst("#main > section > div.content.js-toc-content > div.author-post > div > div.author-post__text > div > a")
+                                ?.text()
+                        }
+                        "publishDate" from {
+                            val time = document
+                                .selectOrFail("#main > section > div.content.js-toc-content > div.author-post > div > div.author-post__text > time")
+                            time.text()
+                        }
+                    }
+                    "topics" from {
+                        document.select("h2.wp-block-heading").map { it.text() }
+                    }
+                }
+    }
+
+    private fun add(df: AnyFrame) = df
         .add("a") { 42 }
         .add {
             "b" from { "" }
@@ -172,6 +203,14 @@ fun main() {
         val nonNullValues: DataColumn<Int> = df.a
     }
 
+    fun update(df: DataFrame<*>) {
+        val nullableInt: Int? = 42
+        val df = df.add("a") { nullableInt }.update { a }.with { 0 }
+        val nonNullValues: DataColumn<Int> = df.a
+        val df1 = df.update { a }.with { null }
+        val nullValues: DataColumn<Int?> = df1.a
+    }
+
     fun rename() {
         val df = listOf(Record(1, "ab", NestedRecord(3.0), Test1(1, "2"))).toDataFrame(maxDepth = 1)
         df.nestedRecord.c
@@ -222,6 +261,21 @@ fun main() {
 
         val flattened1 = grouped.flatten { f }
         flattened1.a
+    }
+
+    fun moveToTop() {
+        val df = dataFrameOf("a", "b", "c", "d")(1, 2, 3, 4)
+        val grouped = df
+            .group { a and b }.into("e")
+            .group { e and c }.into("f")
+
+        val df1 = grouped.move { f.e.a }.toTop()
+        df1.a
+    }
+
+    fun addId() {
+        val df = dataFrameOf("col")("empty").addId()
+        df.id
     }
 }
 

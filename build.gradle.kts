@@ -10,6 +10,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlinx:dataframe:0.14.1")
     kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.14.1")
+    implementation("org.jsoup:jsoup:1.18.1")
     testImplementation(kotlin("test"))
 }
 
