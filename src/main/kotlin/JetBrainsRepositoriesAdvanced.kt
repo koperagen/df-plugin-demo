@@ -29,6 +29,7 @@ private fun parseTopics(raw: AnyFrame) = raw.castTo(sample)
     .add("topicsList") { topics.removeSurrounding("[", "]").split(", ").filter { it.isNotEmpty() } }
     .add("topicsSize") { topicsList.size }
 
+// Option 2
 @DataSchema
 data class Repositories(
     @ColumnName("full_name")
@@ -41,9 +42,7 @@ data class Repositories(
     val watchers: Int
 )
 
-// Option 2
 fun printInfoTyped(df: DataFrame<Repositories>) {
-    // columname annotation?...
     df.stargazersCount.print()
 
     df.filter { stargazersCount > 50 }.print()
