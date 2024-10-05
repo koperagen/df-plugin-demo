@@ -5,6 +5,19 @@ import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
 import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.io.*
 
+fun main() {
+    // How can you create a function when types are implicit?
+    // 1: castTo + https://kotlinlang.org/docs/functions.html#single-expression-functions
+    val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
+    printInfo(df)
+
+    // 2: generate code
+    df.generateDataClasses("Repositories").print()
+    val repos = df.convertTo<Repositories>()
+    printInfoTyped(repos)
+    repos.append()
+}
+
 // Option 1
 private val sample = @Import DataFrame.readCSV("jetbrains_repositories.csv")
 
@@ -56,17 +69,4 @@ fun printInfoTyped(df: DataFrame<Repositories>) {
     df1.sortByDesc { stargazers_count }.print(rowsLimit = 10)
 
     df1.explode { topicsList }.groupBy { topicsList }.sortByGroupDesc { it.rowsCount() }.print()
-}
-
-fun main() {
-    // How can you create a function when types are implicit?
-    // 1: castTo + https://kotlinlang.org/docs/functions.html#single-expression-functions
-    val df = DataFrame.readCSV("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains_repositories.csv")
-    printInfo(df)
-
-    // 2: generate code
-    df.generateDataClasses("Repositories").print()
-    val repos = df.convertTo<Repositories>()
-    printInfoTyped(repos)
-    repos.append()
 }
