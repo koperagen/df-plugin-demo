@@ -24,6 +24,7 @@ Multiple examples are provided:
 4. [DataClasses.kt](src%2Fmain%2Fkotlin%2FDataClasses.kt) is an entry point if the data you want to play with can be conveniently created as a list of object instances. Then it can be converted to DataFrame
 5. [GenerateSchema.kt](src%2Fmain%2Fkotlin%2FGenerateSchema.kt) and [UseSchema.kt](src%2Fmain%2Fkotlin%2FUseSchema.kt) is an entry point if you have a file or API with data
 6. [JetBrainsRepositoriesAdvanced.kt](src/main/kotlin/JetBrainsRepositoriesAdvanced.kt) shows how to create functions 
+7. [Kandy.kt](src/main/kotlin/Kandy.kt) shows how properties provided by the plugin can be used to build plots with Kandy 
 
 Have a look at first and second to get an idea why and how the plugin is useful.
 
