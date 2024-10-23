@@ -277,6 +277,14 @@ object SupportedAPI {
         val df = dataFrameOf("col")("empty").addId()
         df.id
     }
+
+    fun insertUnder() {
+        val df = dataFrameOf("age")(12).insert("yearOfBirth") { 2024 - age }.under("personalInfo")
+        df.personalInfo.yearOfBirth
+
+        val df1 = df.insert("name") { "Joe" }.under { personalInfo }
+        df1.personalInfo.name
+    }
 }
 
 class Test1(val a: Int, val b: String)
