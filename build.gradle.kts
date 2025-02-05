@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.16.0-dev-5364")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.16.0-dev-5364")
+    implementation("org.jetbrains.kotlinx:dataframe:0.16.0-dev-5585")
+    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.16.0-dev-5585")
     implementation("org.jetbrains.kotlinx:kandy-lets-plot:0.7.1")
     implementation("org.jsoup:jsoup:1.18.1")
     testImplementation(kotlin("test"))
