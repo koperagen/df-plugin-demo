@@ -1,6 +1,5 @@
 import org.jetbrains.kotlinx.dataframe.*
 import org.jetbrains.kotlinx.dataframe.annotations.DataSchema
-import org.jetbrains.kotlinx.dataframe.annotations.Import
 import org.jetbrains.kotlinx.dataframe.api.*
 import org.jetbrains.kotlinx.dataframe.io.*
 import org.jsoup.Jsoup
@@ -151,15 +150,6 @@ object SupportedAPI {
         df.cast<Explode>().frameColumn
     }
 
-    fun read() {
-        // Argument be either absolute path or path relative to project directory.
-        val df = @Import DataFrame.readCSV("jetbrains_repositories.csv")
-        df.full_name
-        // Execute `assemble` task to "cache" schema from this URL. Works for readJson
-        val df1 = @Import DataFrame.readJson("https://raw.githubusercontent.com/Kotlin/dataframe/master/data/jetbrains.json")
-        df1.repos
-    }
-
     fun toDataFrame() {
         val df = listOf(Record(1, "ab", NestedRecord(3.0), Test1(1, "2"))).toDataFrame(maxDepth = 1)
         df.nestedRecord.c
@@ -231,17 +221,6 @@ object SupportedAPI {
         val df1 = df.groupBy { race and expr { 12 } }.toDataFrame("grouped")
         df1.race
         df1.grouped[0].timestamp
-    }
-
-    fun castTo(organizations: List<String>) {
-        val sample = @Import DataFrame.readCSV("jetbrains_repositories.csv")
-        organizations.forEach { organization ->
-            val df = DataFrame.readCSV(organization).castTo(sample)
-            println(organizations)
-            println("Repositories: ${df.count()}")
-            println("Top 10:")
-            df.sortBy { stargazers_count.desc() }.take(10).print()
-        }
     }
 
     fun selectionDsl(df: DataFrame<Join2>) {

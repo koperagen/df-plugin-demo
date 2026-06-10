@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.4.0"
+    kotlin("plugin.dataframe") version "2.4.0"
 }
 
 repositories {
@@ -8,8 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:0.16.0-dev-5585")
-    kotlinCompilerPluginClasspath("org.jetbrains.kotlinx.dataframe:compiler-plugin-all:0.16.0-dev-5585")
+    implementation("org.jetbrains.kotlinx:dataframe:1.0.0-Beta5")
     implementation("org.jetbrains.kotlinx:kandy-lets-plot:0.7.1")
     implementation("org.jsoup:jsoup:1.18.1")
     testImplementation(kotlin("test"))
@@ -21,12 +21,4 @@ tasks.test {
 
 kotlin {
     jvmToolchain(11)
-}
-
-tasks.compileKotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:path=${projectDir.absolutePath}")
-        freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlinx.dataframe:schemas=${layout.buildDirectory.file("generated").get().asFile.absolutePath}")
-    }
-    compilerExecutionStrategy.set(org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS)
 }
