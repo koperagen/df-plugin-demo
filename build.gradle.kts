@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:dataframe:1.0.0-Beta5")
+    implementation("org.jetbrains.kotlinx:dataframe:1.0.0-rc01")
     implementation("org.jetbrains.kotlinx:kandy-lets-plot:0.7.1")
     implementation("org.jsoup:jsoup:1.18.1")
     testImplementation(kotlin("test"))
